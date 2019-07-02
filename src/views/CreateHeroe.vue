@@ -2,10 +2,11 @@
     <div class="row">
         <div class="col-8 offset-3">
            <div class="card card-body">
-          <form  @submit.prevent="crearHeroe" >
+            
+          <form  @submit.prevent="editar?editarHeroe:crearHeroe" >
 
             <div class="form-group">
-            <input class="form-control" type = "text" name ="name" v-model="heroe.name" placeholder ="Nombre del heroe">
+            <input class="form-control" type = "text" name ="name" v-model="heroe.nombre" placeholder ="Nombre del heroe">
             </div>
             
             <div class="form-group">
@@ -25,8 +26,8 @@
             </div>
             <button class="btn btn-primary btn-block" >Send</button>
 
-            <div class="alert alert-danger" v-if="alert">
-                Fallos en el registro!
+            <div :class="aviso" v-if="alert">
+                {{mensageAlert}}
             </div>
 
           </form>
@@ -43,35 +44,47 @@ import Axios from 'axios';
 export default {
     data(){
         return {
-            edit:false,
+            editar:false,
             heroe : {
                 nombre : '',
-                biografria : '',
+                biografia : '',
                 poder : '',
                 fotoUrl : '',
                 casa : ''
             },
             alert : false,
-            mensageAlert : ''
+            mensageAlert : '',
+            aviso : ''
         }
     },
     methods : {
         crearHeroe(){
-            Axios.post('Access-Control-Allow-Origin:localhost:3000/heroes/create',this.heroe,{headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-    },}).then(
-                () => {
-                    this.mensageAlert = 'Problemas a la hora de crear el Heroe' ;
-                },
-                () => {
-                    this.mensageAlert = 'Se registro exitosamente';
-                }
-
-            );
-            //this.mensageAlert = (!heroe) ? 'Problemas a la hora de crear el Heroe' : 'Se registro exitosamente';
+            //probar con el asyn y await
+            console.log(this.heroe);
+            Axios.post('http://localhost:3000/heroes/create',this.heroe).then(()=> {
+                this.mensageAlert ='Se registro exitosamente';
+                this.aviso = 'alert alert-success';
+            }, ()=> {
+                this.mensageAlert = 'Problemas a la hora de crear el Heroe';
+                this.aviso = 'alert alert-danger';
+            } );
             this.alert = true;
             this.heroe = {};
+            //this.$router.push({name:'home'});
+        },
+        editarHeroe(){
+            Axios.put('http://localhost:3000/heroes/update?heroeId='+this.heroe['_id']);
+            //this.$router.push({name:'home'});
         }
+    },
+    mounted(){
+        
+        if(this.$route.params){
+            this.editar=true;
+            this.heroe =this.$route.params.heroe;
+            //console.log(this.$route.params);
+        }
+        
     }
 }
 </script>

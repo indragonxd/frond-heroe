@@ -14,8 +14,8 @@
 
         <v-card-actions>
           <v-btn flat color="orange">Ver mas</v-btn>
-          <v-btn flat color="red" class="ml-auto">Eliminar</v-btn>
-          <v-btn flat color="yellow">Editar</v-btn>
+          <v-btn flat color="red" class="ml-auto" @click="eliminarHeroe(item['_id'])">Eliminar</v-btn>
+          <router-link :to="{name:'update',params:{heroe:item}}"><v-btn flat color="yellow" >Editar</v-btn></router-link>
         </v-card-actions>
       </v-card>
     </div>
@@ -39,6 +39,16 @@ export default {
 
       console.log(valores.data.heroes);
       console.log(this.heroes);
+    },
+    eliminarHeroe(id){
+      axios.delete('http://localhost:3000/heroes/delete?heroeId='+id).then(
+        ()=> {
+          this.$router.push({name:'home'});
+        }
+      );
+    },
+    editarHeroe(){
+      
     }
   },
   mounted() {

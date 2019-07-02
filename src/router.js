@@ -19,6 +19,11 @@ export default new Router({
       path: '/create',
       name: 'create',
       component: CrearHeroe
+    },
+    {
+      path: '/update/:heroe',
+      name: 'update',
+      component: CrearHeroe
     }
   ]
 })
