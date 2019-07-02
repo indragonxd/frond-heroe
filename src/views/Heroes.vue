@@ -1,6 +1,7 @@
 <template>
-  <div class="row">
-    <div class="col-xs-12 offset-3" v-for="(item,index) in heroes" :key="index">
+<div>
+  <div class="row"  v-for="(item,index) in heroes" :key="index">
+    <div class="col-6 offset-3">
       <v-card class="mt-4">
         <v-img :src="item.fotoUrl" aspect-ratio="2.75"></v-img>
 
@@ -13,9 +14,12 @@
 
         <v-card-actions>
           <v-btn flat color="orange">Ver mas</v-btn>
+          <v-btn flat color="red" class="ml-auto">Eliminar</v-btn>
+          <v-btn flat color="yellow">Editar</v-btn>
         </v-card-actions>
       </v-card>
     </div>
+  </div>
   </div>
 </template>
 
