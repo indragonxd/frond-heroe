@@ -3,7 +3,7 @@
         <div class="col-8 offset-3">
            <div class="card card-body">
             
-          <form  @submit.prevent="editar?editarHeroe:crearHeroe" >
+          <form  @submit.prevent="buttonSend" >
 
             <div class="form-group">
             <input class="form-control" type = "text" name ="name" v-model="heroe.nombre" placeholder ="Nombre del heroe">
@@ -73,13 +73,22 @@ export default {
             //this.$router.push({name:'home'});
         },
         editarHeroe(){
-            Axios.put('http://localhost:3000/heroes/update?heroeId='+this.heroe['_id']);
-            //this.$router.push({name:'home'});
+            console.log('me ejecute');
+            Axios.put('http://localhost:3000/heroes/update?heroeId='+this.heroe['_id'],this.heroe).then(
+                ()=>{
+                    console.log('entre');
+                }
+            );
+            this.$router.push({name:'home'});
+        },
+        buttonSend(){
+            return this.editar?this.editarHeroe():this.crearHeroe();
         }
     },
     mounted(){
         
-        if(this.$route.params){
+        if(this.$route.params.heroe){
+            console.log('editar true');
             this.editar=true;
             this.heroe =this.$route.params.heroe;
             //console.log(this.$route.params);

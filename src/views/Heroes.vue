@@ -43,12 +43,11 @@ export default {
     eliminarHeroe(id){
       axios.delete('http://localhost:3000/heroes/delete?heroeId='+id).then(
         ()=> {
-          this.$router.push({name:'home'});
+          console.log('entre');
+          
         }
       );
-    },
-    editarHeroe(){
-      
+      this.$router.push({name:'home'});
     }
   },
   mounted() {
